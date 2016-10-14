@@ -5,9 +5,7 @@
 using Newtonsoft.Json;
 using Newtonsoft.Json.Converters;
 using System;
-using System.ComponentModel;
 using System.Drawing;
-using System.Xml.Linq;
 
 namespace Quamotion.WebDriver.Client.Models
 {
@@ -67,15 +65,6 @@ namespace Quamotion.WebDriver.Client.Models
         }
 
         /// <inheritdoc/>
-        [JsonProperty("resolution")]
-        [JsonConverter(typeof(RectangleConverter))]
-        public Rectangle Resolution
-        {
-            get;
-            set;
-        }
-
-        /// <inheritdoc/>
         [JsonProperty("serialNumber")]
         public string SerialNumber
         {
@@ -108,16 +97,7 @@ namespace Quamotion.WebDriver.Client.Models
             get;
             set;
         }
-
-        /// <inheritdoc/>
-        [JsonProperty("viewPort")]
-        [JsonConverter(typeof(RectangleConverter))]
-        public Rectangle ViewPort
-        {
-            get;
-            set;
-        }
-
+        
         /// <summary>
         /// Gets or sets additional information about the device model, such as the available memory or the
         /// dimensions of the device.
