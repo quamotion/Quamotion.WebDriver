@@ -97,7 +97,7 @@ namespace Quamotion.WebDriver.Client.Models
             get;
             set;
         }
-        
+
         /// <summary>
         /// Gets or sets additional information about the device model, such as the available memory or the
         /// dimensions of the device.

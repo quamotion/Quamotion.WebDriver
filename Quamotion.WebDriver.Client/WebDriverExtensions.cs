@@ -157,7 +157,7 @@ namespace Quamotion.WebDriver.Client
             {
                 var commandInfo = new W3CWireProtocolCommandInfoRepository();
                 commandInfo.AddAppCommands();
-                defaultCommandExecutor = new TypedHttpCommandExecutor(DefaultRemoteAddress, commandInfo );
+                defaultCommandExecutor = new TypedHttpCommandExecutor(DefaultRemoteAddress, commandInfo);
             }
 
             return defaultCommandExecutor;
