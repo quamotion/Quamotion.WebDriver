@@ -118,5 +118,21 @@ namespace Quamotion.WebDriver.Client
         /// Represents the GetStatus command.
         /// </summary>
         public static readonly string GetStatus = "status";
+
+        /// <summary>
+        /// Represents the ClearText command.
+        /// </summary>
+        public static readonly string ClearText = "clear";
+
+        /// <summary>
+        /// Represents the ScrollTo command.
+        /// </summary>
+        public static readonly string ScrollTo = "scrollTo";
+
+
+        /// <summary>
+        /// Represents the DismissKeyboard command.
+        /// </summary>
+        public static readonly string DismissKeyboard = "dismissKeyboard";
     }
 }

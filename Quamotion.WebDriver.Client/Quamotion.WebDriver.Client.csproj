@@ -63,6 +63,7 @@
     <Compile Include="AppCommandInfoRepositoryExtensions.cs" />
     <Compile Include="AppDriver.cs" />
     <Compile Include="AppDriverCommand.cs" />
+    <Compile Include="KeyboardExtensions.cs" />
     <Compile Include="TypedHttpCommandExecutor.cs" />
     <Compile Include="WebDriverExtensions.cs" />
     <Compile Include="Models\Application.cs" />
@@ -90,6 +91,7 @@
     <Compile Include="Models\SessionStatus.cs" />
     <Compile Include="Models\Status.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="WebElementExtensions.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

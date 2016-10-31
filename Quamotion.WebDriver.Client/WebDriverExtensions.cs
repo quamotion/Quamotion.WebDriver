@@ -9,6 +9,7 @@ using Quamotion.WebDriver.Client.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
@@ -131,6 +132,60 @@ namespace Quamotion.WebDriver.Client
         }
 
         /// <summary>
+        /// Clears the text of the active text field.
+        /// </summary>
+        /// <param name="appDriver">
+        /// The <see cref="AppDriver"/> on which to executor the command.
+        /// </param>
+        public static void ClearText(this AppDriver appDriver)
+        {
+            appDriver.ExecuteCommand(AppDriverCommand.ClearText, new Dictionary<string, object>()
+            {
+                { AppDriverCommand.SessionId, appDriver.SessionId }
+            });
+        }
+
+        /// <summary>
+        /// Dismisses the the keyboard.
+        /// </summary>
+        /// <param name="appDriver">
+        /// The <see cref="AppDriver"/> on which to executor the command.
+        /// </param>
+        public static void DismissKeyboard(this AppDriver appDriver)
+        {
+            appDriver.ExecuteCommand(AppDriverCommand.DismissKeyboard, new Dictionary<string, object>()
+            {
+                { AppDriverCommand.SessionId, appDriver.SessionId }
+            });
+        }
+
+        /// <summary>
+        /// Scrolls untile an element with the marked contition is visible.
+        /// </summary>
+        /// <param name="appDriver">
+        /// The <see cref="AppDriver"/> on which to executor the command.
+        /// </param>
+        /// <param name="element">
+        /// The element on which to swipe.
+        /// </param>
+        /// <param name="marked">
+        /// the marked condition to stop scrolling.
+        /// </param>
+        public static void ScrollTo(this AppDriver appDriver, IWebElement element, string marked)
+        {
+            var remoteWebElementType = typeof(RemoteWebElement);
+            var elementIdField = remoteWebElementType.GetField("elementId", BindingFlags.Instance | BindingFlags.NonPublic);
+            var elementId = elementIdField.GetValue(element) as string;
+
+            appDriver.ExecuteCommand(AppDriverCommand.ScrollTo, new Dictionary<string, object>()
+            {
+                { AppDriverCommand.SessionId, appDriver.SessionId },
+                { AppDriverCommand.ElementId, elementId },
+                { "marked", marked }
+            });
+        }
+
+        /// <summary>
         /// Gets the <c>WebDriver</c> status
         /// </summary>
         /// <param name="appDriver">
@@ -143,6 +198,23 @@ namespace Quamotion.WebDriver.Client
         {
             var response = appDriver.ExecuteCommand(AppDriverCommand.GetStatus, string.Empty);
             return GetValue<Status>(response);
+        }
+
+        /// <summary>
+        /// Finds an element based on the marked meta tag. An element corresponds to the marked meta tag if the text property or the element id equals the tag value.
+        /// </summary>
+        /// <param name="appDriver">
+        /// The <see cref="AppDriver"/> on which to executor the command.
+        /// </param>
+        /// <param name="marked">
+        /// The marked meta tag.
+        /// </param>
+        /// <returns>
+        /// The element matching the marked meta tag.
+        /// </returns>
+        public static IWebElement FindElementByMarked(this AppDriver appDriver, string marked)
+        {
+            return appDriver.FindElement(By.XPath($"*[@marked='${marked}']"));
         }
 
         /// <summary>
