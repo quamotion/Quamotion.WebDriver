@@ -25,7 +25,7 @@ namespace Quamotion.WebDriver.Client
         /// </param>
         public static void Dismiss(this IKeyboard keyboard)
         {
-            var remoteKeyboardType = typeof(IKeyboard).Assembly.GetType("RemoteKeyboard");
+            var remoteKeyboardType = typeof(IKeyboard).Assembly.GetType("OpenQA.Selenium.Remote.RemoteKeyboard");
             var driverField = remoteKeyboardType.GetField("driver", BindingFlags.Instance | BindingFlags.NonPublic);
 
             var driver = driverField.GetValue(keyboard) as AppDriver;

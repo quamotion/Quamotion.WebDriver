@@ -214,7 +214,7 @@ namespace Quamotion.WebDriver.Client
         /// </returns>
         public static IWebElement FindElementByMarked(this AppDriver appDriver, string marked)
         {
-            return appDriver.FindElement(By.XPath($"*[@marked='${marked}']"));
+            return appDriver.FindElement(By.XPath($"*[@marked='{marked}']"));
         }
 
         /// <summary>
