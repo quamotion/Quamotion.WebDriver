@@ -129,7 +129,6 @@ namespace Quamotion.WebDriver.Client
         /// </summary>
         public static readonly string ScrollTo = "scrollTo";
 
-
         /// <summary>
         /// Represents the DismissKeyboard command.
         /// </summary>
