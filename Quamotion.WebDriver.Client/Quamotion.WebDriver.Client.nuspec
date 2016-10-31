@@ -2,7 +2,6 @@
 <package >
   <metadata>
     <id>quamotion-webdriver-client</id>
-    <version>0.1-beta</version>
     <title>quamotion-webdriver (C# client)</title>
     <authors>Quamotion</authors>
     <owners>Quamotion</owners>
@@ -14,8 +13,8 @@
     <copyright>(c) 2015-2016 Quamotion bvba</copyright>
     <tags>quamotion-webdriver c# client</tags>
 	<dependencies>
-		<dependency id="Newtonsoft.Json" version="9.0.2-beta1" />
-		<dependency id="Selenium.WebDriver" version="3.0.0-beta3" />
+		<dependency id="Newtonsoft.Json" version="9.0.1" />
+		<dependency id="Selenium.WebDriver" version="3.0.0" />
     </dependencies>
   </metadata>
   
