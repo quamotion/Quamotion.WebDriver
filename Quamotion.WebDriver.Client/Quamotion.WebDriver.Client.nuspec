@@ -5,6 +5,7 @@
     <title>quamotion-webdriver (C# client)</title>
     <authors>Quamotion</authors>
     <owners>Quamotion</owners>
+    <version>$version$</version>
     <licenseUrl>http://quamotion.mobi</licenseUrl>
     <projectUrl>http://quamotion.mobi</projectUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
