@@ -160,7 +160,8 @@ namespace Quamotion.WebDriver.Client
         }
 
         /// <summary>
-        /// Scrolls untile an element with the marked contition is visible.
+        /// Scrolls until an element with the marked contition is visible. This method requires the element to be loaded.
+        /// Use <see cref="WebDriverExtensions.ScrollDownTo(AppDriver, IWebElement, string)"/> or <see cref="WebDriverExtensions.ScrollUpTo(AppDriver, IWebElement, string)"/> if the element is not loaded.
         /// </summary>
         /// <param name="appDriver">
         /// The <see cref="AppDriver"/> on which to executor the command.
@@ -168,10 +169,37 @@ namespace Quamotion.WebDriver.Client
         /// <param name="element">
         /// The element on which to swipe.
         /// </param>
-        /// <param name="marked">
-        /// the marked condition to stop scrolling.
+        /// <param name="xpath">
+        /// the xpath condition to stop scrolling.
         /// </param>
-        public static void ScrollTo(this AppDriver appDriver, IWebElement element, string marked)
+        public static void ScrollTo(this AppDriver appDriver, IWebElement element, string xpath)
+        {
+            var remoteWebElementType = typeof(RemoteWebElement);
+            var elementIdField = remoteWebElementType.GetField("elementId", BindingFlags.Instance | BindingFlags.NonPublic);
+            var elementId = elementIdField.GetValue(element) as string;
+
+            appDriver.ExecuteCommand(AppDriverCommand.ScrollTo, new Dictionary<string, object>
+            {
+                { AppDriverCommand.SessionId, appDriver.SessionId },
+                { AppDriverCommand.ElementId, elementId },
+                { "value", xpath },
+                { "using", "xpath" }
+            });
+        }
+
+        /// <summary>
+        /// Scrolls until an element with the marked contition is visible.
+        /// </summary>
+        /// <param name="appDriver">
+        /// The <see cref="AppDriver"/> on which to executor the command.
+        /// </param>
+        /// <param name="element">
+        /// The element on which to swipe.
+        /// </param>
+        /// <param name="xpath">
+        /// the xpath condition to stop scrolling.
+        /// </param>
+        public static void ScrollDownTo(this AppDriver appDriver, IWebElement element, string xpath)
         {
             var remoteWebElementType = typeof(RemoteWebElement);
             var elementIdField = remoteWebElementType.GetField("elementId", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -181,7 +209,37 @@ namespace Quamotion.WebDriver.Client
             {
                 { AppDriverCommand.SessionId, appDriver.SessionId },
                 { AppDriverCommand.ElementId, elementId },
-                { "marked", marked }
+                { "value", xpath },
+                { "using", "xpath" },
+                { "direction", "Down" }
+            });
+        }
+
+        /// <summary>
+        /// Scrolls until an element with the marked contition is visible.
+        /// </summary>
+        /// <param name="appDriver">
+        /// The <see cref="AppDriver"/> on which to executor the command.
+        /// </param>
+        /// <param name="element">
+        /// The element on which to swipe.
+        /// </param>
+        /// <param name="xpath">
+        /// the xpath condition to stop scrolling.
+        /// </param>
+        public static void ScrollUpTo(this AppDriver appDriver, IWebElement element, string xpath)
+        {
+            var remoteWebElementType = typeof(RemoteWebElement);
+            var elementIdField = remoteWebElementType.GetField("elementId", BindingFlags.Instance | BindingFlags.NonPublic);
+            var elementId = elementIdField.GetValue(element) as string;
+
+            appDriver.ExecuteCommand(AppDriverCommand.ScrollTo, new Dictionary<string, object>()
+            {
+                { AppDriverCommand.SessionId, appDriver.SessionId },
+                { AppDriverCommand.ElementId, elementId },
+                { "value", xpath },
+                { "using", "xpath" },
+                { "direction", "Down" }
             });
         }
 

@@ -27,7 +27,63 @@ namespace Quamotion.WebDriver.Client
         /// <param name="marked">
         /// The meta tag of the element which should be visible
         /// </param>
-        public static void ScrollTo(this IWebElement webElement, string marked)
+        public static void ScrollToMarked(this IWebElement webElement, string marked)
+        {
+            webElement.GetAppDriver().ScrollTo(webElement, $"//*[@marked='{marked}']");
+        }
+
+        /// <summary>
+        /// Scrolls until the element with the meta tag marked is visible
+        /// </summary>
+        /// <param name="webElement">
+        /// The scrollable element
+        /// </param>
+        /// <param name="xpath">
+        /// The meta tag of the element which should be visible
+        /// </param>
+        public static void ScrollTo(this IWebElement webElement, string xpath)
+        {
+            webElement.GetAppDriver().ScrollTo(webElement, xpath);
+        }
+
+        /// <summary>
+        /// Scrolls until the element with the meta tag marked is visible
+        /// </summary>
+        /// <param name="webElement">
+        /// The scrollable element
+        /// </param>
+        /// <param name="xpath">
+        /// The xpath of the element which should be visible
+        /// </param>
+        public static void ScrollDownTo(this IWebElement webElement, string xpath)
+        {
+            webElement.GetAppDriver().ScrollDownTo(webElement, xpath);
+        }
+
+        /// <summary>
+        /// Scrolls until the element with the meta tag marked is visible
+        /// </summary>
+        /// <param name="webElement">
+        /// The scrollable element
+        /// </param>
+        /// <param name="xpath">
+        /// The xpath of the element which should be visible
+        /// </param>
+        public static void ScrollUpTo(this IWebElement webElement, string xpath)
+        {
+            webElement.GetAppDriver().ScrollUpTo(webElement, xpath);
+        }
+
+        /// <summary>
+        /// Gets the associated driver
+        /// </summary>
+        /// <param name="webElement">
+        /// The element for which to get the <see cref="AppDriver"/>
+        /// </param>
+        /// <returns>
+        /// The associated <see cref="AppDriver"/>
+        /// </returns>
+        private static AppDriver GetAppDriver(this IWebElement webElement)
         {
             var remoteWebElementType = typeof(RemoteWebElement);
             var driverField = remoteWebElementType.GetField("driver", BindingFlags.Instance | BindingFlags.NonPublic);
@@ -38,7 +94,7 @@ namespace Quamotion.WebDriver.Client
                 throw new ArgumentException(nameof(webElement));
             }
 
-            driver.ScrollTo(webElement, marked);
+            return driver;
         }
     }
 }
