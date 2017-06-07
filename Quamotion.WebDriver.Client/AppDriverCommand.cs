@@ -110,6 +110,11 @@ namespace Quamotion.WebDriver.Client
         public static readonly string ElementByCoordinates = "elementByCoordinates";
 
         /// <summary>
+        /// Represents the ClickByCoordinate command.
+        /// </summary>
+        public static readonly string ClickByCoordinate = "clickByCoordinate";
+
+        /// <summary>
         /// Represents the RemoveSession command.
         /// </summary>
         public static readonly string RemoveSession = "removeSession";
