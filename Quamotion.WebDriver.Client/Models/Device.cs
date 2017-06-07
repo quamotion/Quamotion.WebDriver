@@ -108,5 +108,15 @@ namespace Quamotion.WebDriver.Client.Models
             get;
             set;
         }
+
+        /// <summary>
+        /// Gets or sets the resolution of the device.
+        /// </summary>
+        [JsonProperty("resolution", NullValueHandling = NullValueHandling.Ignore)]
+        public DeviceResolution Resolution
+        {
+            get;
+            set;
+        }
     }
 }
