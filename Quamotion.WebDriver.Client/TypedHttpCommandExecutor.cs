@@ -226,6 +226,8 @@ namespace Quamotion.WebDriver.Client
         private HttpWebRequest CreateRequest(Command command)
         {
             HttpWebRequest request = this.CommandInfoRepository.GetCommandInfo(command.Name).CreateWebRequest(this.RemoteServer, command);
+            System.Diagnostics.Debug.WriteLine($"Request for {command.Name}: {request.RequestUri}");
+            System.Diagnostics.Debug.WriteLine($"                            {request}");
             request.Timeout = (int)this.ServerResponseTimeout.TotalMilliseconds;
             request.Accept = RequestAcceptHeader;
             request.KeepAlive = this.KeepAlive;
