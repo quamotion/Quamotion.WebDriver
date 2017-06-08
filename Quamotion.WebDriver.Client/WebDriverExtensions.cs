@@ -276,6 +276,28 @@ namespace Quamotion.WebDriver.Client
         }
 
         /// <summary>
+        /// Clicks on the device screen on the given absolute coordinate.
+        /// </summary>
+        /// <param name="appDriver">
+        /// The <see cref="AppDriver"/> on which to execute the command.
+        /// </param>
+        /// <param name="x">
+        /// The x component of the coordinate.
+        /// </param>
+        /// <param name="y">
+        /// The y component of the coordinate.
+        /// </param>
+        public static void ClickByCoordinate(this AppDriver appDriver, int x, int y)
+        {
+            appDriver.ExecuteCommand(AppDriverCommand.ClickByCoordinate, new Dictionary<string, object>()
+            {
+                { AppDriverCommand.SessionId, appDriver.SessionId },
+                { "x", x },
+                { "y", y }
+            });
+        }
+
+        /// <summary>
         /// Gets the default <see cref="ICommandExecutor"/>. The <see cref="ICommandExecutor"/> also defines the routes for the Quamotion WebDriver next to the standard <c>WebDriver</c> routes.
         /// </summary>
         /// <returns>
