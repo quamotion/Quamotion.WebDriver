@@ -21,9 +21,9 @@ namespace Quamotion.WebDriver.Client
         /// Initializes a new instance of the <see cref="AppDriver"/> class.
         /// </summary>
         /// <param name="desiredCapabilities">
-        /// An <see cref="AppCapabilities"/> object containing the desired capabilities of the application.
+        /// An <see cref="MobileCapabilities"/> object containing the desired capabilities of the application.
         /// </param>
-        public AppDriver(AppCapabilities desiredCapabilities)
+        public AppDriver(MobileCapabilities desiredCapabilities)
             : base(WebDriverExtensions.GetDefaultCommandExecutor(), desiredCapabilities)
         {
         }

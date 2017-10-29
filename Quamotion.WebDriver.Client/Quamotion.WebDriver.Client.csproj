@@ -66,7 +66,9 @@
     <Compile Include="AppCommandInfoRepositoryExtensions.cs" />
     <Compile Include="AppDriver.cs" />
     <Compile Include="AppDriverCommand.cs" />
+    <Compile Include="DeviceCapabilities.cs" />
     <Compile Include="KeyboardExtensions.cs" />
+    <Compile Include="MobileCapabilities.cs" />
     <Compile Include="Models\DeviceResolution.cs" />
     <Compile Include="TypedHttpCommandExecutor.cs" />
     <Compile Include="WebDriverExtensions.cs" />

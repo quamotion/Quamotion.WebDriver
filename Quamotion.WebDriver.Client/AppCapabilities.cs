@@ -9,7 +9,7 @@ namespace Quamotion.WebDriver.Client
     /// <summary>
     /// Contains the capabilites needed to launch an application on a device.
     /// </summary>
-    public class AppCapabilities : DesiredCapabilities
+    public class AppCapabilities : MobileCapabilities
     {
         /// <summary>
         /// Initializes a new instance of the <see cref="AppCapabilities"/> class.
@@ -60,6 +60,7 @@ namespace Quamotion.WebDriver.Client
         /// otherwise, <see langword="false"/>.
         /// </param>
         public AppCapabilities(string deviceId, string appId, string appVersion, bool clearApplicationSettings)
+            :base ("Native", deviceId, true)
         {
             this.SetCapability("deviceId", deviceId);
             this.SetCapability("applicationType", "Native");
