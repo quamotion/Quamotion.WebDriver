@@ -25,6 +25,11 @@ namespace Quamotion.WebDriver.Client.Models
         /// <summary>
         /// The application is a web (HTML, browser)-based application, that can be accessed through an URL.
         /// </summary>
-        Web
+        Web,
+        
+        /// <summary>
+        /// The device application type indicated a device session.
+        /// </summary>
+        Device
     }
 }
