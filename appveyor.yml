@@ -1,0 +1,9 @@
+image: Visual Studio 2017
+
+build_script:
+  - cmd: dotnet build -c Release
+  - cmd: dotnet pack -c Release
+
+artifacts:
+  - path: 'Quamotion.WebDriver.Client\bin\Release\*.nupkg'
+    name: NuGet

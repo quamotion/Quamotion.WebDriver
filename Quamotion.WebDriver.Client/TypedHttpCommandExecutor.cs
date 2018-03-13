@@ -169,48 +169,54 @@ namespace Quamotion.WebDriver.Client
                 throw new WebDriverException($"A exception was thrown sending an HTTP request to the remote WebDriver server for URL {request.RequestUri.AbsoluteUri}.", exception);
             }
 
-            if (webResponse == null || webResponse.ContentType == null)
+            try
             {
-                throw new WebDriverException($"Unsupported webResponse for url {request.RequestUri.AbsoluteUri}");
-            }
-
-            string textOfWebResponse = GetTextOfWebResponse(webResponse);
-            webResponse.Close();
-
-            if (typeof(T) == typeof(Response))
-            {
-                var commandResponse = new Response();
-                if (webResponse.ContentType != null && webResponse.ContentType.StartsWith(JsonMimeType, StringComparison.OrdinalIgnoreCase))
+                if (webResponse == null || webResponse.ContentType == null)
                 {
-                    commandResponse = Response.FromJson(textOfWebResponse);
+                    throw new WebDriverException($"Unsupported webResponse for url {request.RequestUri.AbsoluteUri}");
+                }
+
+                string textOfWebResponse = GetTextOfWebResponse(webResponse);
+
+                if (typeof(T) == typeof(Response))
+                {
+                    var commandResponse = new Response();
+                    if (webResponse.ContentType != null && webResponse.ContentType.StartsWith(JsonMimeType, StringComparison.OrdinalIgnoreCase))
+                    {
+                        commandResponse = Response.FromJson(textOfWebResponse);
+                    }
+                    else
+                    {
+                        commandResponse.Value = textOfWebResponse;
+                    }
+
+                    if (this.CommandInfoRepository.SpecificationLevel < 1 && (webResponse.StatusCode < HttpStatusCode.OK || webResponse.StatusCode >= HttpStatusCode.BadRequest))
+                    {
+                        commandResponse.Status = WebDriverResult.UnhandledError;
+                        if (webResponse.StatusCode == HttpStatusCode.NotImplemented)
+                        {
+                            commandResponse.Status = WebDriverResult.UnknownCommand;
+                        }
+                    }
+
+                    if (commandResponse.Value is string)
+                    {
+                        // First, collapse all \r\n pairs to \n, then replace all \n with
+                        // System.Environment.NewLine. This ensures the consistency of
+                        // the values.
+                        commandResponse.Value = ((string)commandResponse.Value).Replace("\r\n", "\n").Replace("\n", System.Environment.NewLine);
+                    }
+
+                    return (T)((object)commandResponse);
                 }
                 else
                 {
-                    commandResponse.Value = textOfWebResponse;
+                    return JsonConvert.DeserializeObject<T>(textOfWebResponse);
                 }
-
-                if (this.CommandInfoRepository.SpecificationLevel < 1 && (webResponse.StatusCode < HttpStatusCode.OK || webResponse.StatusCode >= HttpStatusCode.BadRequest))
-                {
-                    commandResponse.Status = WebDriverResult.UnhandledError;
-                    if (webResponse.StatusCode == HttpStatusCode.NotImplemented)
-                    {
-                        commandResponse.Status = WebDriverResult.UnknownCommand;
-                    }
-                }
-
-                if (commandResponse.Value is string)
-                {
-                    // First, collapse all \r\n pairs to \n, then replace all \n with
-                    // System.Environment.NewLine. This ensures the consistency of
-                    // the values.
-                    commandResponse.Value = ((string)commandResponse.Value).Replace("\r\n", "\n").Replace("\n", System.Environment.NewLine);
-                }
-
-                return (T)((object)commandResponse);
             }
-            else
+            finally
             {
-                return JsonConvert.DeserializeObject<T>(textOfWebResponse);
+                webResponse.Close();
             }
         }
 
@@ -225,7 +231,10 @@ namespace Quamotion.WebDriver.Client
         /// </returns>
         private HttpWebRequest CreateRequest(Command command)
         {
-            HttpWebRequest request = this.CommandInfoRepository.GetCommandInfo(command.Name).CreateWebRequest(this.RemoteServer, command);
+            var commandInfo = this.CommandInfoRepository.GetCommandInfo(command.Name);
+            var uri = commandInfo.CreateCommandUri(this.RemoteServer, command);
+            var request = (HttpWebRequest)HttpWebRequest.Create(uri);
+            request.Method = commandInfo.Method;
             request.Timeout = (int)this.ServerResponseTimeout.TotalMilliseconds;
             request.Accept = RequestAcceptHeader;
             request.KeepAlive = this.KeepAlive;
