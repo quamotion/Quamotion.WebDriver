@@ -5,5 +5,5 @@ build_script:
   - cmd: dotnet pack -c Release
 
 artifacts:
-  - path: 'Quamotion.WebDriver.Client\bin\Release\'
-    name: '*.nupkg'
+  - path: 'Quamotion.WebDriver.Client\bin\Release\*.nupkg'
+    name: NuGet
