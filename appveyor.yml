@@ -7,5 +7,5 @@ on_success:
   - cmd: dotnet pack -c Release
 
 artifacts:
-  - path: *.nupkg
+  - path: '*.nupkg'
     name: Quamotion.WebDriver.Client\bin\Release
