@@ -1,0 +1,8 @@
+image: Visual Studio 2017
+
+build_script:
+  - cmd: dotnet build -c Release --version-suffix r%APPVEYOR_BUILD_NUMBER%
+
+on_success:
+  - cmd: dotnet pack -c Release --version-suffix r%APPVEYOR_BUILD_NUMBER%
+  - ps: Push-AppveyorArtifact "Quamotion.WebDriver.Client\bin\Debug\Quamotion.WebDriver.Client.*.nupkg"
