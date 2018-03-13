@@ -5,5 +5,5 @@ build_script:
   - cmd: dotnet pack -c Release
 
 artifacts:
-  - path: '*.nupkg'
-    name: Quamotion.WebDriver.Client\bin\Release
+  - path: 'Quamotion.WebDriver.Client\bin\Release\'
+    name: '*.nupkg'
