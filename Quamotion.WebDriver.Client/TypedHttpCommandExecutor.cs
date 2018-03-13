@@ -66,7 +66,16 @@ namespace Quamotion.WebDriver.Client
         /// <inheritdoc />
         public Response Execute(Command command)
         {
-            return this.Execute<Response>(command);
+            var response = this.Execute<Response>(command);
+
+            if (command.Name == "getPageSource")
+            {
+                // The .NET Selenium client returns the page source as a string object. However, the Response command will attempt to serialize
+                // this as a dictionary. Convert this back to a string value to make sure we return the correct value.
+                response.Value = JsonConvert.SerializeObject(response);
+            }
+
+            return response;
         }
 
         /// <summary>
