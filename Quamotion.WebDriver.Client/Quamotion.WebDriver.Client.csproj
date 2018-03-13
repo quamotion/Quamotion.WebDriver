@@ -8,6 +8,7 @@
     <Product>Quamotion WebDriver</Product>
     <Copyright>(c) 2018 Quamotion bvba</Copyright>
     <PackageProjectUrl>https://github.com/quamotion/Quamotion.WebDriver</PackageProjectUrl>
+    <PackageId>quamotion-webdriver-client</PackageId>
   </PropertyGroup>
 
   <ItemGroup>
