@@ -225,7 +225,9 @@ namespace Quamotion.WebDriver.Client
         /// </returns>
         private HttpWebRequest CreateRequest(Command command)
         {
-            HttpWebRequest request = this.CommandInfoRepository.GetCommandInfo(command.Name).CreateWebRequest(this.RemoteServer, command);
+            Uri commandUri = this.CommandInfoRepository.GetCommandInfo(command.Name).CreateCommandUri(this.RemoteServer, command);
+
+            var request = HttpWebRequest.CreateHttp(commandUri);
             request.Timeout = (int)this.ServerResponseTimeout.TotalMilliseconds;
             request.Accept = RequestAcceptHeader;
             request.KeepAlive = this.KeepAlive;
@@ -241,6 +243,12 @@ namespace Quamotion.WebDriver.Client
             }
 
             return request;
+        }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            // nothing to dispose.
         }
     }
 }
