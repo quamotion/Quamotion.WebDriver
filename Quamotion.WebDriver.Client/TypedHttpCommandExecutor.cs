@@ -260,5 +260,11 @@ namespace Quamotion.WebDriver.Client
 
             return request;
         }
+
+        /// <inheritdoc />
+        public void Dispose()
+        {
+            // nothing to dispose
+        }
     }
 }
