@@ -55,6 +55,11 @@ namespace Quamotion.WebDriver.Client
         public static readonly string GetDevices = "getDevices";
 
         /// <summary>
+        /// Represents the GetTimeouts command.
+        /// </summary>
+        public static readonly string GetTimeouts = "getTimeouts";
+
+        /// <summary>
         /// Represents the GetDeviceInformation command.
         /// </summary>
         public static readonly string GetDeviceInformation = "getDeviceInformation";
@@ -88,6 +93,16 @@ namespace Quamotion.WebDriver.Client
         /// Represents the RebootDevice command.
         /// </summary>
         public static readonly string RebootDevice = "rebootDevice";
+
+        /// <summary>
+        /// Represents the start app command.
+        /// </summary>
+        public static readonly string StartApplication = "startApplication";
+
+        /// <summary>
+        /// Represents the kill app command.
+        /// </summary>
+        public static readonly string KillApplication = "killApplication";
 
         /// <summary>
         /// Represents the IsReady command.
@@ -138,5 +153,10 @@ namespace Quamotion.WebDriver.Client
         /// Represents the DismissKeyboard command.
         /// </summary>
         public static readonly string DismissKeyboard = "dismissKeyboard";
+
+        /// <summary>
+        /// Represents the FlickCoordinate command.
+        /// </summary>
+        public static readonly string FlickCoordinate = "flickCoordinate";
     }
 }

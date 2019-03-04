@@ -8,7 +8,10 @@ using OpenQA.Selenium.Remote;
 using Quamotion.WebDriver.Client.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
+using System.Net;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -215,6 +218,18 @@ namespace Quamotion.WebDriver.Client
             });
         }
 
+        public static void FlickCoordinate(this AppDriver appDriver, int x, int y, int xOffset, int yOffset, int speed)
+        {
+            appDriver.ExecuteCommand(AppDriverCommand.FlickCoordinate, new Dictionary<string, object>()
+            {
+                { "xCoordinate", x },
+                { "yCoordinate", y },
+                { "xoffset", xOffset },
+                { "yoffset", yOffset },
+                { "speed", speed },
+            });
+        }
+
         /// <summary>
         /// Scrolls until an element with the marked contition is visible.
         /// </summary>
@@ -295,6 +310,101 @@ namespace Quamotion.WebDriver.Client
                 { "x", x },
                 { "y", y }
             });
+        }
+
+        public static string GetDeviceId(this AppDriver appDriver)
+        {
+            var capabilities = appDriver.Capabilities as ICapabilities;
+            return capabilities?.GetCapability("deviceId").ToString();
+        }
+
+        public static void KillApplication(string deviceId, string appId)
+        {
+            ExecuteCommand(AppDriverCommand.KillApplication, new Dictionary<string, object>()
+            {
+                { AppDriverCommand.DeviceId, deviceId },
+                { AppDriverCommand.AppId, appId},
+            });
+        }
+
+        public static bool StartApplication(string deviceId, string appId, string[] arguments = default(string[]))
+        {
+            var parameters = new Dictionary<string, object>()
+            {
+                { AppDriverCommand.DeviceId, deviceId },
+                { AppDriverCommand.AppId, appId},
+            };
+
+            var command = new Command(null, AppDriverCommand.StartApplication, parameters);
+
+            var request = GetDefaultCommandExecutor().CreateRequest(command);
+
+            string parametersString = string.Empty;
+            if (arguments != null && arguments.Count() > 0)
+            {
+                parametersString = JsonConvert.SerializeObject(arguments);
+            }
+
+            if (string.IsNullOrEmpty(parametersString))
+            {
+                parametersString = "{}";
+            }
+
+            GetDefaultCommandExecutor().SetRequestStream(request, parametersString);
+
+            var response = GetDefaultCommandExecutor().GetResponse<Response>(request);
+
+            return response.Status == WebDriverResult.Success;
+        }
+
+        public static Timeouts GetTimeouts(this AppDriver appDriver)
+        {
+            var response = appDriver.ExecuteCommand(AppDriverCommand.GetTimeouts, new Dictionary<string, object>()
+            {
+                { AppDriverCommand.SessionId, appDriver.SessionId }
+            });
+
+            return GetValue<Timeouts>(response);
+        }
+
+        public static IWebElement FindElementByPredicateString(this AppDriver appDriver, string value)
+        {
+            return appDriver.FindElement(AppDriver.PredicateString, value);
+        }
+
+        public static ReadOnlyCollection<IWebElement> FindElementsByPredicateString(this AppDriver appDriver, string value)
+        {
+            return appDriver.FindElements(AppDriver.PredicateString, value);
+        }
+
+        public static IWebElement FindElementByClassChain(this AppDriver appDriver, string value)
+        {
+            return appDriver.FindElement(AppDriver.ClassChain, value);
+        }
+
+        public static ReadOnlyCollection<IWebElement> FindElementsByClassChain(this AppDriver appDriver, string value)
+        {
+            return appDriver.FindElements(AppDriver.ClassChain, value);
+        }
+
+        public static bool TestElementByPredicateString(this AppDriver appDriver, string value)
+        {
+            return appDriver.TestElement(AppDriver.PredicateString, value);
+        }
+
+        public static bool TestElementsByPredicateString(this AppDriver appDriver, string value)
+        {
+            return appDriver.TestElements(AppDriver.PredicateString, value);
+        }
+
+        public static bool TestElementByClassChain(this AppDriver appDriver, string value)
+        {
+            return appDriver.TestElement(AppDriver.ClassChain, value);
+        }
+
+        public static bool TestElementsByClassChain(this AppDriver appDriver, string value)
+        {
+            return appDriver.TestElements(AppDriver.ClassChain, value);
         }
 
         /// <summary>
