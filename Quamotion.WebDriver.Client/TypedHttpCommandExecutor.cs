@@ -98,6 +98,13 @@ namespace Quamotion.WebDriver.Client
             }
 
             var request = this.CreateRequest(command);
+
+            if (request.Method == "POST")
+            {
+                string parametersAsJsonString = command.ParametersAsJsonString;
+                this.SetRequestStream(request, parametersAsJsonString);
+            }
+
             return this.GetResponse<T>(request);
         }
 
@@ -110,7 +117,7 @@ namespace Quamotion.WebDriver.Client
         /// <returns>
         /// The text of the <see cref="WebResponse"/>
         /// </returns>
-        private static string GetTextOfWebResponse(HttpWebResponse webResponse)
+        internal static string GetTextOfWebResponse(HttpWebResponse webResponse)
         {
             StreamReader reader = new StreamReader(webResponse.GetResponseStream(), Encoding.UTF8);
             string str = reader.ReadToEnd();
@@ -132,7 +139,7 @@ namespace Quamotion.WebDriver.Client
         /// <returns>
         /// The <see cref="Response"/>
         /// </returns>
-        private Response GetResponse(HttpWebResponse webResponse)
+        internal Response GetResponse(HttpWebResponse webResponse)
         {
             if (webResponse == null)
             {
@@ -166,7 +173,7 @@ namespace Quamotion.WebDriver.Client
         /// <returns>
         /// The <c>WebDriver</c> response.
         /// </returns>
-        private T GetResponse<T>(WebRequest request)
+        internal T GetResponse<T>(WebRequest request)
         {
             HttpWebResponse webResponse = null;
             try
@@ -238,7 +245,7 @@ namespace Quamotion.WebDriver.Client
         /// <returns>
         /// The <see cref="HttpWebRequest"/>
         /// </returns>
-        private HttpWebRequest CreateRequest(Command command)
+        internal HttpWebRequest CreateRequest(Command command)
         {
             var commandInfo = this.CommandInfoRepository.GetCommandInfo(command.Name);
             var uri = commandInfo.CreateCommandUri(this.RemoteServer, command);
@@ -248,17 +255,17 @@ namespace Quamotion.WebDriver.Client
             request.Accept = RequestAcceptHeader;
             request.KeepAlive = this.KeepAlive;
             request.ServicePoint.ConnectionLimit = 0x7d0;
-            if (request.Method == "POST")
-            {
-                string parametersAsJsonString = command.ParametersAsJsonString;
-                byte[] bytes = Encoding.UTF8.GetBytes(parametersAsJsonString);
-                request.ContentType = "application/json;charset=utf-8";
-                Stream requestStream = request.GetRequestStream();
-                requestStream.Write(bytes, 0, bytes.Length);
-                requestStream.Close();
-            }
 
             return request;
+        }
+
+        internal void SetRequestStream(HttpWebRequest request, string data)
+        {
+            byte[] bytes = Encoding.UTF8.GetBytes(data);
+            request.ContentType = "application/json;charset=utf-8";
+            Stream requestStream = request.GetRequestStream();
+            requestStream.Write(bytes, 0, bytes.Length);
+            requestStream.Close();
         }
 
         /// <inheritdoc />
