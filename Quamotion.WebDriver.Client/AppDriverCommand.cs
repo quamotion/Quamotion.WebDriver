@@ -129,6 +129,12 @@ namespace Quamotion.WebDriver.Client
         /// </summary>
         public static readonly string ClickByCoordinate = "clickByCoordinate";
 
+
+        /// <summary>
+        /// Represents the ScrollToVisible command.
+        /// </summary>
+        public static readonly string ScrollToVisible = "scrollToVisible";
+
         /// <summary>
         /// Represents the RemoveSession command.
         /// </summary>

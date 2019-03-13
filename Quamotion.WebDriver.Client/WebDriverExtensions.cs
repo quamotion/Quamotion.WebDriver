@@ -312,6 +312,19 @@ namespace Quamotion.WebDriver.Client
             });
         }
 
+        public static void ScrollToVisible(this AppDriver appDriver, IWebElement element)
+        {
+            var remoteWebElementType = typeof(RemoteWebElement);
+            var elementIdField = remoteWebElementType.GetField("elementId", BindingFlags.Instance | BindingFlags.NonPublic);
+            var elementId = elementIdField.GetValue(element) as string;
+
+            appDriver.ExecuteCommand(AppDriverCommand.ScrollToVisible, new Dictionary<string, object>()
+            {
+                { AppDriverCommand.SessionId, appDriver.SessionId },
+                { AppDriverCommand.ElementId, elementId },
+            });
+        }
+
         public static string GetDeviceId(this AppDriver appDriver)
         {
             var capabilities = appDriver.Capabilities as ICapabilities;
