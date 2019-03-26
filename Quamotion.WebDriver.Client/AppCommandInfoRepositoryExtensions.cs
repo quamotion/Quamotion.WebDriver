@@ -40,7 +40,7 @@ namespace Quamotion.WebDriver.Client
             commandInfoRepository.TryAddCommand(AppDriverCommand.DismissKeyboard, new CommandInfo(CommandInfo.PostCommand, $"session/{{{AppDriverCommand.SessionId}}}/quamotion/dismissKeyboard"));
             commandInfoRepository.TryAddCommand(AppDriverCommand.ClearText, new CommandInfo(CommandInfo.PostCommand, $"session/{{{AppDriverCommand.SessionId}}}/quamotion/clear"));
             commandInfoRepository.TryAddCommand(AppDriverCommand.ScrollTo, new CommandInfo(CommandInfo.PostCommand, $"session/{{{AppDriverCommand.SessionId}}}/element/{{{AppDriverCommand.ElementId}}}/quamotion/scrollTo"));
-            commandInfoRepository.TryAddCommand(AppDriverCommand.DismissKeyboard, new CommandInfo(CommandInfo.GetCommand, $"session/{{{AppDriverCommand.SessionId}}}/timeouts"));
+            commandInfoRepository.TryAddCommand(AppDriverCommand.GetTimeouts, new CommandInfo(CommandInfo.GetCommand, $"session/{{{AppDriverCommand.SessionId}}}/timeouts"));
             commandInfoRepository.TryAddCommand(AppDriverCommand.FlickCoordinate, new CommandInfo(CommandInfo.PostCommand, $"session/{{{AppDriverCommand.SessionId}}}/touch/flick"));
             commandInfoRepository.TryAddCommand(AppDriverCommand.KillApplication, new CommandInfo(CommandInfo.PostCommand, $"quamotion/device/{{{AppDriverCommand.DeviceId}}}/app/{{{AppDriverCommand.AppId}}}/kill?strict"));
         }
