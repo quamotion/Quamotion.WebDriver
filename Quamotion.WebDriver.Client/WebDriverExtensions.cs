@@ -162,6 +162,21 @@ namespace Quamotion.WebDriver.Client
             });
         }
 
+        public static object PerformOperation(this AppDriver appDriver, IWebElement webElement, string operation, Collection<object> arguments)
+        {
+            var remoteWebElementType = typeof(RemoteWebElement);
+            var elementIdField = remoteWebElementType.GetField("elementId", BindingFlags.Instance | BindingFlags.NonPublic);
+            var elementId = elementIdField.GetValue(webElement) as string;
+
+            return appDriver.ExecuteCommand(AppDriverCommand.PerformOperation, new Dictionary<string, object>
+            {
+                { AppDriverCommand.SessionId, appDriver.SessionId },
+                { AppDriverCommand.ElementId, elementId },
+                { "operation", operation },
+                { "args", arguments }
+            }).Value;
+        }
+
         /// <summary>
         /// Scrolls until an element with the marked contition is visible. This method requires the element to be loaded.
         /// Use <see cref="WebDriverExtensions.ScrollDownTo(AppDriver, IWebElement, string)"/> or <see cref="WebDriverExtensions.ScrollUpTo(AppDriver, IWebElement, string)"/> if the element is not loaded.
@@ -337,6 +352,21 @@ namespace Quamotion.WebDriver.Client
             {
                 { AppDriverCommand.DeviceId, deviceId },
                 { AppDriverCommand.AppId, appId},
+            });
+        }
+
+        public static void SetProperty(this AppDriver appDriver, IWebElement element, string name, string value)
+        {
+            var remoteWebElementType = typeof(RemoteWebElement);
+            var elementIdField = remoteWebElementType.GetField("elementId", BindingFlags.Instance | BindingFlags.NonPublic);
+            var elementId = elementIdField.GetValue(element) as string;
+
+            appDriver.ExecuteCommand(AppDriverCommand.SetProperty, new Dictionary<string, object>()
+            {
+                { AppDriverCommand.SessionId, appDriver.SessionId },
+                { AppDriverCommand.ElementId, elementId },
+                { AppDriverCommand.PropertyName, name},
+                { AppDriverCommand.PropertyValue, value},
             });
         }
 

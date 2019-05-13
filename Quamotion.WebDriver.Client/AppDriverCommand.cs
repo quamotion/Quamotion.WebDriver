@@ -40,6 +40,11 @@ namespace Quamotion.WebDriver.Client
         public static readonly string PropertyName = "propertyName";
 
         /// <summary>
+        /// Represents the PropertyValue literal.
+        /// </summary>
+        public static readonly string PropertyValue = "propertyValue";
+
+        /// <summary>
         /// Represents the TakeScreenshot command.
         /// </summary>
         public static readonly string TakeScreenshot = "takeScreenshot";
@@ -154,6 +159,17 @@ namespace Quamotion.WebDriver.Client
         /// Represents the ScrollTo command.
         /// </summary>
         public static readonly string ScrollTo = "scrollTo";
+
+        /// <summary>
+        /// Represents the SetProperty command.
+        /// </summary>
+        public static readonly string SetProperty = "setProperty";
+
+
+        /// <summary>
+        /// Represents the PerformOperation command.
+        /// </summary>
+        public static readonly string PerformOperation = "performOperation";
 
         /// <summary>
         /// Represents the DismissKeyboard command.

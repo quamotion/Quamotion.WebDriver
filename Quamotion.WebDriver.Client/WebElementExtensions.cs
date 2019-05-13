@@ -6,6 +6,7 @@ using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Reflection;
 using System.Text;
@@ -72,6 +73,11 @@ namespace Quamotion.WebDriver.Client
         public static void ScrollUpTo(this IWebElement webElement, string xpath)
         {
             webElement.GetAppDriver().ScrollUpTo(webElement, xpath);
+        }
+
+        public static void PerformOperation(this IWebElement webElement, string operation, Collection<object> arguments)
+        {
+            webElement.GetAppDriver().PerformOperation(webElement, operation, arguments);
         }
 
         /// <summary>

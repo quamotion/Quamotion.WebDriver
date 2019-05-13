@@ -33,6 +33,8 @@ namespace Quamotion.WebDriver.Client
             commandInfoRepository.TryAddCommand(AppDriverCommand.StartApplication, new CommandInfo(CommandInfo.PostCommand, $"quamotion/device/{{{AppDriverCommand.DeviceId}}}/app/{{{AppDriverCommand.AppId}}}/launch?strict"));
             commandInfoRepository.TryAddCommand(AppDriverCommand.IsReady, new CommandInfo(CommandInfo.GetCommand, $"session/{{{AppDriverCommand.SessionId}}}/quamotion/isReady"));
             commandInfoRepository.TryAddCommand(AppDriverCommand.GetProperty, new CommandInfo(CommandInfo.GetCommand, $"session/{{{AppDriverCommand.SessionId}}}/element/{{{AppDriverCommand.ElementId}}}/property/{{{AppDriverCommand.PropertyName}}}"));
+            commandInfoRepository.TryAddCommand(AppDriverCommand.SetProperty, new CommandInfo(CommandInfo.PostCommand, $"session/{{{AppDriverCommand.SessionId}}}/element/{{{AppDriverCommand.ElementId}}}/property"));
+            commandInfoRepository.TryAddCommand(AppDriverCommand.PerformOperation, new CommandInfo(CommandInfo.PostCommand, $"session/{{{AppDriverCommand.SessionId}}}/element/{{{AppDriverCommand.ElementId}}}/perform"));
             commandInfoRepository.TryAddCommand(AppDriverCommand.ElementByCoordinates, new CommandInfo(CommandInfo.GetCommand, $"session/{{{AppDriverCommand.SessionId}}}/quamotion/elementByCoordinates"));
             commandInfoRepository.TryAddCommand(AppDriverCommand.ClickByCoordinate, new CommandInfo(CommandInfo.PostCommand, $"session/{{{AppDriverCommand.SessionId}}}/touch/clickByCoordinate"));
             commandInfoRepository.TryAddCommand(AppDriverCommand.ScrollToVisible, new CommandInfo(CommandInfo.PostCommand, $"session/{{{AppDriverCommand.SessionId}}}/element/{{{AppDriverCommand.ElementId}}}/quamotion/scrollToVisible"));
