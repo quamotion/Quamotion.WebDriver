@@ -11,7 +11,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
-using System.Net;
+using System.Net.Http;
 using System.Reflection;
 using System.Text;
 using System.Threading;
@@ -82,6 +82,24 @@ namespace Quamotion.WebDriver.Client
         public static void ConnectTo(Uri remoteAddress)
         {
             DefaultRemoteAddress = remoteAddress;
+        }
+
+        public static async Task AddApplication(string filePath, CancellationToken cancellationToken)
+        {
+            string url = $"{DefaultRemoteAddress}/quamotion/app/v2";
+
+            using (var fileStream = File.OpenRead(filePath))
+            using (var fileStreamContent = new StreamContent(fileStream))
+            using (var client = new HttpClient())
+            using (var formData = new MultipartFormDataContent())
+            {
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
+                formData.Add(fileStreamContent, "files", Path.GetFileName(filePath));
+
+                requestMessage.Content = formData;
+                var response = await client.SendAsync(requestMessage).ConfigureAwait(false);
+                if (!response.IsSuccessStatusCode) throw new InvalidOperationException(response.Content.ReadAsStringAsync().Result);
+            }
         }
 
         /// <summary>
