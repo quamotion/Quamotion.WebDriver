@@ -251,10 +251,71 @@ namespace Quamotion.WebDriver.Client
             });
         }
 
-        public static void FlickCoordinate(this AppDriver appDriver, int x, int y, int xOffset, int yOffset, int speed)
+        public static void Flick(this AppDriver appDriver, IWebElement element, Direction direction, int delta)
         {
+            var remoteWebElementType = typeof(RemoteWebElement);
+            var elementIdField = remoteWebElementType.GetField("elementId", BindingFlags.Instance | BindingFlags.NonPublic);
+            var elementId = elementIdField.GetValue(element) as string;
+
             appDriver.ExecuteCommand(AppDriverCommand.FlickCoordinate, new Dictionary<string, object>()
             {
+                { AppDriverCommand.ElementId, elementId },
+                { "direction", direction },
+                { "delta", delta }
+            });
+        }
+
+        public static void Flick(this AppDriver appDriver, IWebElement element, Direction direction, int delta, int speed)
+        {
+            var remoteWebElementType = typeof(RemoteWebElement);
+            var elementIdField = remoteWebElementType.GetField("elementId", BindingFlags.Instance | BindingFlags.NonPublic);
+            var elementId = elementIdField.GetValue(element) as string;
+
+            appDriver.ExecuteCommand(AppDriverCommand.FlickCoordinate, new Dictionary<string, object>()
+            {
+                { AppDriverCommand.ElementId, elementId },
+                { "direction", direction },
+                { "delta", delta },
+                { "speed", speed }
+            });
+        }
+        public static void Flick(this AppDriver appDriver, IWebElement element, Direction direction)
+        {
+            var remoteWebElementType = typeof(RemoteWebElement);
+            var elementIdField = remoteWebElementType.GetField("elementId", BindingFlags.Instance | BindingFlags.NonPublic);
+            var elementId = elementIdField.GetValue(element) as string;
+
+            appDriver.ExecuteCommand(AppDriverCommand.FlickCoordinate, new Dictionary<string, object>()
+            {
+                { AppDriverCommand.ElementId, elementId },
+                { "direction", direction }
+            });
+        }
+
+        public static void Flick(this AppDriver appDriver, IWebElement element, int xOffset, int yOffset, int speed)
+        {
+            var remoteWebElementType = typeof(RemoteWebElement);
+            var elementIdField = remoteWebElementType.GetField("elementId", BindingFlags.Instance | BindingFlags.NonPublic);
+            var elementId = elementIdField.GetValue(element) as string;
+
+            appDriver.ExecuteCommand(AppDriverCommand.FlickCoordinate, new Dictionary<string, object>()
+            {
+                { AppDriverCommand.ElementId, elementId },
+                { "speed", speed },
+                { "xOffset", yOffset },
+                { "yOffset", xOffset }
+            });
+        }
+
+        public static void FlickCoordinate(this AppDriver appDriver, IWebElement element, int x, int y, int xOffset, int yOffset, int speed)
+        {
+            var remoteWebElementType = typeof(RemoteWebElement);
+            var elementIdField = remoteWebElementType.GetField("elementId", BindingFlags.Instance | BindingFlags.NonPublic);
+            var elementId = elementIdField.GetValue(element) as string;
+
+            appDriver.ExecuteCommand(AppDriverCommand.FlickCoordinate, new Dictionary<string, object>()
+            {
+                { AppDriverCommand.ElementId, elementId },
                 { "xCoordinate", x },
                 { "yCoordinate", y },
                 { "xoffset", xOffset },
