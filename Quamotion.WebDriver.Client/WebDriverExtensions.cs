@@ -259,7 +259,7 @@ namespace Quamotion.WebDriver.Client
 
             appDriver.ExecuteCommand(AppDriverCommand.FlickCoordinate, new Dictionary<string, object>()
             {
-                { AppDriverCommand.ElementId, elementId },
+                { "element", elementId },
                 { "direction", direction },
                 { "delta", delta }
             });
@@ -273,7 +273,7 @@ namespace Quamotion.WebDriver.Client
 
             appDriver.ExecuteCommand(AppDriverCommand.FlickCoordinate, new Dictionary<string, object>()
             {
-                { AppDriverCommand.ElementId, elementId },
+                { "element", elementId },
                 { "direction", direction },
                 { "delta", delta },
                 { "speed", speed }
@@ -287,7 +287,7 @@ namespace Quamotion.WebDriver.Client
 
             appDriver.ExecuteCommand(AppDriverCommand.FlickCoordinate, new Dictionary<string, object>()
             {
-                { AppDriverCommand.ElementId, elementId },
+                { "element", elementId },
                 { "direction", direction }
             });
         }
@@ -300,7 +300,7 @@ namespace Quamotion.WebDriver.Client
 
             appDriver.ExecuteCommand(AppDriverCommand.FlickCoordinate, new Dictionary<string, object>()
             {
-                { AppDriverCommand.ElementId, elementId },
+                { "element", elementId },
                 { "speed", speed },
                 { "xOffset", yOffset },
                 { "yOffset", xOffset }
@@ -315,7 +315,7 @@ namespace Quamotion.WebDriver.Client
 
             appDriver.ExecuteCommand(AppDriverCommand.FlickCoordinate, new Dictionary<string, object>()
             {
-                { AppDriverCommand.ElementId, elementId },
+                { "element", elementId },
                 { "xCoordinate", x },
                 { "yCoordinate", y },
                 { "xoffset", xOffset },
