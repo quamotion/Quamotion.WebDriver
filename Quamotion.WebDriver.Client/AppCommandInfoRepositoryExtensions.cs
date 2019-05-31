@@ -45,6 +45,8 @@ namespace Quamotion.WebDriver.Client
             commandInfoRepository.TryAddCommand(AppDriverCommand.GetTimeouts, new CommandInfo(CommandInfo.GetCommand, $"session/{{{AppDriverCommand.SessionId}}}/timeouts"));
             commandInfoRepository.TryAddCommand(AppDriverCommand.FlickCoordinate, new CommandInfo(CommandInfo.PostCommand, $"session/{{{AppDriverCommand.SessionId}}}/touch/flick"));
             commandInfoRepository.TryAddCommand(AppDriverCommand.KillApplication, new CommandInfo(CommandInfo.PostCommand, $"quamotion/device/{{{AppDriverCommand.DeviceId}}}/app/{{{AppDriverCommand.AppId}}}/kill?strict"));
+            commandInfoRepository.TryAddCommand(AppDriverCommand.GetDeviceSettings, new CommandInfo(CommandInfo.GetCommand, $"quamotion/device/{{{AppDriverCommand.DeviceId}}}/settings/{{domain}}"));
+            commandInfoRepository.TryAddCommand(AppDriverCommand.GetDeviceSetting, new CommandInfo(CommandInfo.GetCommand, $"quamotion/device/{{{AppDriverCommand.DeviceId}}}/settings/{{domain}}/{{key}}"));
         }
     }
 }

@@ -62,6 +62,25 @@ namespace Quamotion.WebDriver.Client
             return base.FindElement(mechanism, value);
         }
 
+        public static Dictionary<string, object> GetDeviceSettings(string deviceId, string domain)
+        {
+            return WebDriverExtensions.ExecuteCommand<Dictionary<string, object>>(AppDriverCommand.GetDeviceSettings, new Dictionary<string, object>()
+            {
+                { "deviceId", deviceId },
+                { "domain", domain }
+            });
+        }
+
+        public static object GetDeviceSetting(string deviceId, string domain, string key)
+        {
+            return WebDriverExtensions.ExecuteCommand<object>(AppDriverCommand.GetDeviceSetting, new Dictionary<string, object>()
+            {
+                { "deviceId", deviceId },
+                { "domain", domain },
+                { "key", key }
+            });
+        }
+
         /// <summary>
         /// Finds all elements matching the given mechanism and value.
         /// </summary>

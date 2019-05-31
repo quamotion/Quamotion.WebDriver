@@ -180,5 +180,15 @@ namespace Quamotion.WebDriver.Client
         /// Represents the FlickCoordinate command.
         /// </summary>
         public static readonly string FlickCoordinate = "flickCoordinate";
+
+        /// <summary>
+        /// Represents the GetDeviceSettings command.
+        /// </summary>
+        public static readonly string GetDeviceSettings = "getDeviceSettings";
+
+        /// <summary>
+        /// Represents the GetDeviceSetting command.
+        /// </summary>
+        public static readonly string GetDeviceSetting = "getDeviceSetting";
     }
 }

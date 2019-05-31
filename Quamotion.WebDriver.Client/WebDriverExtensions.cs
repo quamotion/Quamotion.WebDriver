@@ -559,7 +559,7 @@ namespace Quamotion.WebDriver.Client
         /// <returns>
         /// The response of the execution.
         /// </returns>
-        private static Response ExecuteCommand(string name, Dictionary<string, object> parameters)
+        internal static Response ExecuteCommand(string name, Dictionary<string, object> parameters)
         {
             var command = new Command(null, name, parameters);
             return GetDefaultCommandExecutor().Execute(command);
@@ -580,7 +580,7 @@ namespace Quamotion.WebDriver.Client
         /// <returns>
         /// The response of the execution.
         /// </returns>
-        private static Response ExecuteCommand(this AppDriver appDriver, string name, Dictionary<string, object> parameters)
+        internal static Response ExecuteCommand(this AppDriver appDriver, string name, Dictionary<string, object> parameters)
         {
             var command = new Command(appDriver.SessionId, name, parameters);
             var response = appDriver.GetCommandExecutor().Execute(command);
@@ -602,7 +602,7 @@ namespace Quamotion.WebDriver.Client
         /// <returns>
         /// The response of the execution.
         /// </returns>
-        private static Response ExecuteCommand(this AppDriver appDriver, string name, string jsonParameters)
+        internal static Response ExecuteCommand(this AppDriver appDriver, string name, string jsonParameters)
         {
             var command = new Command(name, jsonParameters);
             var response = appDriver.GetCommandExecutor().Execute(command);
@@ -624,7 +624,7 @@ namespace Quamotion.WebDriver.Client
         /// <returns>
         /// The response of the execution.
         /// </returns>
-        private static T ExecuteCommand<T>(string name, Dictionary<string, object> parameters)
+        internal static T ExecuteCommand<T>(string name, Dictionary<string, object> parameters)
         {
             var command = new Command(null, name, parameters);
             return GetDefaultCommandExecutor().Execute<T>(command);
@@ -648,7 +648,7 @@ namespace Quamotion.WebDriver.Client
         /// <returns>
         /// The response of the execution.
         /// </returns>
-        private static T ExecuteCommand<T>(this AppDriver appDriver, string name, Dictionary<string, object> parameters)
+        internal static T ExecuteCommand<T>(this AppDriver appDriver, string name, Dictionary<string, object> parameters)
         {
             var command = new Command(appDriver.SessionId, name, parameters);
             return appDriver.GetCommandExecutor().Execute<T>(command);
@@ -672,7 +672,7 @@ namespace Quamotion.WebDriver.Client
         /// <returns>
         /// The response of the execution.
         /// </returns>
-        private static T ExecuteCommand<T>(this AppDriver appDriver, string name, string jsonParameters)
+        internal static T ExecuteCommand<T>(this AppDriver appDriver, string name, string jsonParameters)
         {
             var command = new Command(name, jsonParameters);
             return appDriver.GetCommandExecutor().Execute<T>(command);
@@ -690,7 +690,7 @@ namespace Quamotion.WebDriver.Client
         /// <returns>
         /// The value of the response.
         /// </returns>
-        private static T GetValue<T>(Response response)
+        internal static T GetValue<T>(Response response)
         {
             var json = JsonConvert.SerializeObject(response.Value);
             return JsonConvert.DeserializeObject<T>(json);
