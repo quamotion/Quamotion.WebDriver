@@ -5,6 +5,7 @@
 using Newtonsoft.Json;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
+using Quamotion.WebDriver.Client.Models;
 using System;
 using System.Globalization;
 using System.IO;
@@ -182,14 +183,28 @@ namespace Quamotion.WebDriver.Client
             }
             catch (WebException exception)
             {
-                throw new WebDriverException($"A exception was thrown sending an HTTP request to the remote WebDriver server for URL {request.RequestUri.AbsoluteUri}.", exception);
+                if (exception.Response != null && exception.Response.ContentType != null && exception.Response.ContentType.StartsWith("application/json"))
+                {
+                    using (var responseStream = exception.Response.GetResponseStream())
+                    using (var responseReader = new StreamReader(responseStream))
+                    {
+                        var body = responseReader.ReadToEnd();
+                        var webDriverExceptionResponse = JsonConvert.DeserializeObject<WebDriverResponse<WebDriverExceptionData>>(body);
+                        throw new WebDriverException(webDriverExceptionResponse.Value);
+                    }
+
+                }
+                else
+                {
+                    throw new WebDriverException(WebDriverError.UnknownError, $"A exception was thrown sending an HTTP request to the remote WebDriver server for URL {request.RequestUri.AbsoluteUri}.", exception);
+                }
             }
 
             try
             {
                 if (webResponse == null || webResponse.ContentType == null)
                 {
-                    throw new WebDriverException($"Unsupported webResponse for url {request.RequestUri.AbsoluteUri}");
+                    throw new WebDriverException(WebDriverError.UnknownError, $"Unsupported webResponse for url {request.RequestUri.AbsoluteUri}");
                 }
 
                 string textOfWebResponse = GetTextOfWebResponse(webResponse);
