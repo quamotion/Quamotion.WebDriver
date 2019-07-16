@@ -6,6 +6,7 @@ using OpenQA.Selenium.Remote;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -18,6 +19,13 @@ namespace Quamotion.WebDriver.Client
     {
         public static void AddAppCommands(this CommandInfoRepository commandInfoRepository)
         {
+            // update some routes to match Quamotion WebDriver
+            var field = typeof(CommandInfoRepository).GetField("commandDictionary", BindingFlags.Instance | BindingFlags.NonPublic);
+            var commandDictionary = field.GetValue(commandInfoRepository) as Dictionary<string, CommandInfo>;
+
+            commandDictionary["sendKeysToActiveElement"] = new CommandInfo(CommandInfo.PostCommand, "/session/{sessionId}/wda/keys");
+            commandDictionary["getWindowSize"] = new CommandInfo(CommandInfo.GetCommand, "/session/{sessionId}/window/size");
+
             commandInfoRepository.TryAddCommand(AppDriverCommand.TakeScreenshot, new CommandInfo(CommandInfo.GetCommand, $"quamotion/device/{{{AppDriverCommand.DeviceId}}}/screenshot"));
             commandInfoRepository.TryAddCommand(AppDriverCommand.GetSessions, new CommandInfo(CommandInfo.GetCommand, "sessions"));
             commandInfoRepository.TryAddCommand(AppDriverCommand.RemoveSession, new CommandInfo(CommandInfo.DeleteCommand, $"session/{{{AppDriverCommand.SessionId}}}"));
@@ -45,6 +53,7 @@ namespace Quamotion.WebDriver.Client
             commandInfoRepository.TryAddCommand(AppDriverCommand.GetTimeouts, new CommandInfo(CommandInfo.GetCommand, $"session/{{{AppDriverCommand.SessionId}}}/timeouts"));
             commandInfoRepository.TryAddCommand(AppDriverCommand.FlickCoordinate, new CommandInfo(CommandInfo.PostCommand, $"session/{{{AppDriverCommand.SessionId}}}/touch/flick"));
             commandInfoRepository.TryAddCommand(AppDriverCommand.KillApplication, new CommandInfo(CommandInfo.PostCommand, $"quamotion/device/{{{AppDriverCommand.DeviceId}}}/app/{{{AppDriverCommand.AppId}}}/kill?strict"));
+            commandInfoRepository.TryAddCommand(AppDriverCommand.SendKeys, new CommandInfo(CommandInfo.PostCommand, $"session/{{{AppDriverCommand.SessionId}}}/keys"));            
         }
     }
 }

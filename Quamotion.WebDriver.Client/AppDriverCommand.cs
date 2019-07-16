@@ -10,6 +10,11 @@ namespace Quamotion.WebDriver.Client
     public static class AppDriverCommand
     {
         /// <summary>
+        /// Represents the SendKeys literal.
+        /// </summary>
+        public static readonly string SendKeys = "sendKeysToActiveElement";
+
+        /// <summary>
         /// Represents the DeviceId literal.
         /// </summary>
         public static readonly string DeviceId = "deviceId";
