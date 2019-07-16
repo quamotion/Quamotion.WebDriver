@@ -24,6 +24,7 @@ namespace Quamotion.WebDriver.Client
             var commandDictionary = field.GetValue(commandInfoRepository) as Dictionary<string, CommandInfo>;
 
             commandDictionary["sendKeysToActiveElement"] = new CommandInfo(CommandInfo.PostCommand, "/session/{sessionId}/wda/keys");
+            commandDictionary["getWindowSize"] = new CommandInfo(CommandInfo.GetCommand, "/session/{sessionId}/window/size");
 
             commandInfoRepository.TryAddCommand(AppDriverCommand.TakeScreenshot, new CommandInfo(CommandInfo.GetCommand, $"quamotion/device/{{{AppDriverCommand.DeviceId}}}/screenshot"));
             commandInfoRepository.TryAddCommand(AppDriverCommand.GetSessions, new CommandInfo(CommandInfo.GetCommand, "sessions"));
