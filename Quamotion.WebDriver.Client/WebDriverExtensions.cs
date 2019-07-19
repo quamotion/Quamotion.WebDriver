@@ -84,6 +84,22 @@ namespace Quamotion.WebDriver.Client
             DefaultRemoteAddress = remoteAddress;
         }
 
+        /// <summary>
+        /// Gets the <c>WebDriver</c> status
+        /// </summary>
+        /// <param name="appDriver">
+        /// The <see cref="AppDriver"/> on which to executor the command.
+        /// </param>
+        /// <returns>
+        /// The <c>WebDriver</c> status
+        /// </returns>
+        public static Status GetStatus()
+        {
+            var command = new Command(AppDriverCommand.GetStatus, string.Empty);
+            var response = GetDefaultCommandExecutor().Execute<Response>(command);
+            return GetValue<Status>(response);
+        }
+
         public static async Task AddApplication(string filePath, CancellationToken cancellationToken)
         {
             string url = $"{DefaultRemoteAddress}/quamotion/app/v2";
@@ -350,21 +366,6 @@ namespace Quamotion.WebDriver.Client
                 { "using", "xpath" },
                 { "direction", "Down" }
             });
-        }
-
-        /// <summary>
-        /// Gets the <c>WebDriver</c> status
-        /// </summary>
-        /// <param name="appDriver">
-        /// The <see cref="AppDriver"/> on which to executor the command.
-        /// </param>
-        /// <returns>
-        /// The <c>WebDriver</c> status
-        /// </returns>
-        public static Status GetStatus(this AppDriver appDriver)
-        {
-            var response = appDriver.ExecuteCommand(AppDriverCommand.GetStatus, string.Empty);
-            return GetValue<Status>(response);
         }
 
         /// <summary>
