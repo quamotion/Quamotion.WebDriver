@@ -118,6 +118,64 @@ namespace Quamotion.WebDriver.Client
             }
         }
 
+        public static async Task SetLicense(string filePath, CancellationToken cancellationToken)
+        {
+            string url = $"{DefaultRemoteAddress}/quamotion/license";
+
+            using (var fileStream = File.OpenRead(filePath))
+            using (var fileStreamContent = new StreamContent(fileStream))
+            using (var client = new HttpClient())
+            using (var formData = new MultipartFormDataContent())
+            {
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
+                formData.Add(fileStreamContent, "files", Path.GetFileName(filePath));
+
+                requestMessage.Content = formData;
+                var response = await client.SendAsync(requestMessage).ConfigureAwait(false);
+                if (!response.IsSuccessStatusCode) throw new InvalidOperationException(response.Content.ReadAsStringAsync().Result);
+            }
+        }
+
+        public static async Task ImportDeveloperProfile(string filePath, string password, CancellationToken cancellationToken)
+        {
+            string url = $"{DefaultRemoteAddress}/quamotion/ios/developerProfile";
+
+            using (var fileStream = File.OpenRead(filePath))
+            using (var fileStreamContent = new StreamContent(fileStream))
+            using (var client = new HttpClient())
+            using (var formData = new MultipartFormDataContent())
+            {
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
+                formData.Add(fileStreamContent, "files", Path.GetFileName(filePath));
+                formData.Add(new StringContent(password), "password");
+                
+                requestMessage.Content = formData;
+                var response = await client.SendAsync(requestMessage).ConfigureAwait(false);
+                if (!response.IsSuccessStatusCode) throw new InvalidOperationException(response.Content.ReadAsStringAsync().Result);
+            }
+        }
+
+        public static async Task ImportDeveloperDisk(string developerDiskImagePath, string developerDiskImageSignaturePath, CancellationToken cancellationToken)
+        {
+            string url = $"{DefaultRemoteAddress}/quamotion/ios/developerDisk";
+
+            using (var developerDiskImageStream = File.OpenRead(developerDiskImagePath))
+            using (var developerDiskImageStreamContent = new StreamContent(developerDiskImageStream))
+            using (var developerDiskImageSignatureStream = File.OpenRead(developerDiskImageSignaturePath))
+            using (var developerDiskImageSignatureStreamContent = new StreamContent(developerDiskImageSignatureStream))
+            using (var client = new HttpClient())
+            using (var formData = new MultipartFormDataContent())
+            {
+                var requestMessage = new HttpRequestMessage(HttpMethod.Post, url);
+                formData.Add(developerDiskImageStreamContent, "DeveloperDiskImage.dmg", "DeveloperDiskImage.dmg");
+                formData.Add(developerDiskImageSignatureStreamContent, "DeveloperDiskImage.dmg.signature", "DeveloperDiskImage.dmg.signature");
+
+                requestMessage.Content = formData;
+                var response = await client.SendAsync(requestMessage).ConfigureAwait(false);
+                if (!response.IsSuccessStatusCode) throw new InvalidOperationException(response.Content.ReadAsStringAsync().Result);
+            }
+        }
+
         /// <summary>
         /// Reboots the device with the given device identifier.
         /// </summary>
